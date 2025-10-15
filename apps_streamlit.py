@@ -504,26 +504,25 @@ if not st.session_state.get("authentication_status"):
         st.markdown("<br><br>", unsafe_allow_html=True)
         footer_cols = st.columns(3)
         
-        # FIX: Ensure all images are placed within the respective columns with explicit widths
-        # FIX: Removed nested columns and used explicit widths for horizontal layout.
+        # FIX: Removed explicit width, using use_container_width=True to maximize size within the column
         with footer_cols[0]:
             st.markdown("<h4 style='text-align: center;'>Funding Support</h4>", unsafe_allow_html=True)
             col_a, col_b = st.columns(2)
             with col_a:
-                try: st.image("hub.png", width=120)
+                try: st.image("hub.png", use_container_width=True)
                 except FileNotFoundError: st.error("File 'hub.png' not found.")
             with col_b:
-                try: st.image("money.png", width=120)
+                try: st.image("money.png", use_container_width=True)
                 except FileNotFoundError: st.error("File 'money.png' not found.")
                 
         with footer_cols[1]:
             st.markdown("<h4 style='text-align: center;'>Project Development & Execution</h4>", unsafe_allow_html=True)
-            try: st.image("mahindra university.png", width=150)
+            try: st.image("mahindra university.png", use_container_width=True)
             except FileNotFoundError: st.error("File 'mahindra university.png' not found.")
             
         with footer_cols[2]:
             st.markdown("<h4 style='text-align: center;'>Support for Data Collection</h4>", unsafe_allow_html=True)
-            try: st.image("government of telangna.png", width=150)
+            try: st.image("government of telangna.png", use_container_width=True)
             except FileNotFoundError: st.error("File 'government of telangna.png' not found.")
 
 

@@ -697,7 +697,7 @@ elif st.session_state["authentication_status"]:
             # Display Clinical Prediction (***REMOVED PART END***)
                  
             st.markdown("---")
-            st.markdown("##### All Features Used for Prediction")
+            st.markdown("##### Analysis Results")
             
             # Format display dataframe
             format_dict = {

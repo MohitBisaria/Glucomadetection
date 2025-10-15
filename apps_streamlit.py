@@ -692,21 +692,9 @@ elif st.session_state["authentication_status"]:
             with col2:
                 st.image(overlay, caption="Segmented Optic Disc (Yellow) and Cup (Red)", use_container_width=True)
             
-            # Display GRI Result
-            st.markdown("---")
-            st.subheader("Glaucoma Risk Index (GRI) Analysis")
-            if metrics['GRI'] is not None:
-                st.markdown(f"### Calculated GRI: **{metrics['GRI']:.4f}**")
-            else:
-                st.error("GRI calculation failed. Check PCA model path and consistency. Ensure the PCA model is fitted with 12 features.")
+            # Display GRI Result (***REMOVED PART START***)
             
-            st.markdown("---")
-            st.subheader("Model Prediction and Features")
-            
-            # Display Clinical Prediction
-            st.markdown(f"### RF Model Prediction (11 Clinical Features + GRI): **{metrics['Prediction']}**")
-            if isinstance(metrics['Confidence'], (float, np.floating)):
-                 st.markdown(f"**Confidence:** {metrics['Confidence'] * 100:.1f}%")
+            # Display Clinical Prediction (***REMOVED PART END***)
                  
             st.markdown("---")
             st.markdown("##### All Features Used for Prediction")

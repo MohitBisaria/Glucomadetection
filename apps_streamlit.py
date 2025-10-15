@@ -666,7 +666,7 @@ elif st.session_state["authentication_status"]:
                     textposition='outside'
                 )])
                 fig.update_layout(
-                    title="All 12 Features Used for Glaucoma Prediction", 
+                    title="Glaucoma Specific-Metrics", 
                     height=600, 
                     yaxis=dict(title="Value (Ratio or Pixel Count)")
                 )

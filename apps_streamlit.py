@@ -25,7 +25,7 @@ TARGET_WIDTH = 1024 # Keep this consistent
 TARGET_HEIGHT = 768 # Keep this consistent
 # IMPORTANT: Ensure this file is accessible in your deployment environment
 # NOTE: Using placeholder path. Update for your specific deployment.
-pca_model_path = '/home/mu/Desktop/Project_Code/trained_models/incremental_pca_model.pkl' 
+pca_model_path = 'incremental_pca_model.pkl' 
 
 # --- Fixed Gabor Parameters (MUST MATCH PCA TRAINING SCRIPT) ---
 fixed_numRows = TARGET_HEIGHT

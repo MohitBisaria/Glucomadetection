@@ -8,7 +8,7 @@ from torch import nn
 from transformers import AutoImageProcessor, SegformerForSemanticSegmentation
 import joblib
 import streamlit_authenticator as stauth
-from fpdf import FPDF, XPos, YPos # Import XPos and YPos for fpdf fix
+from fpdf import FPDF, XPos, YPos 
 import tempfile
 import os
 import plotly.express as px
@@ -109,7 +109,7 @@ class PDF(FPDF):
     def footer(self):
         self.set_y(-15)
         self.set_font('Helvetica', 'I', 8)
-        self.cell(0, 10, f'Page {self.page_no()}', border=0, new_x=XPos.RMARGIN, new_y=YPos.NEXT, align='C')
+        self.cell(0, 10, f'Page {self.page_no()}', border=0, new_x=XPos.RMARGIN, new_y=YPos.TOP, align='C')
 
 def create_report_pdf(patient_info, original_img, overlay_img, metrics_df, metrics_fig, gri_value):
     pdf = PDF('P', 'mm', 'A4')
@@ -168,7 +168,6 @@ def create_report_pdf(patient_info, original_img, overlay_img, metrics_df, metri
     headers_to_print = list(headers_map.keys())
     
     # Adjusted widths (in mm) for the 14 columns
-    # Wider cells for longer abbreviated headers (e.g., DiscHWdt)
     col_widths = [10, 10, 10, 12, 12, 12, 12, 14, 14, 14, 14, 10, 18, 18] 
 
     for i, header in enumerate(headers_to_print):
@@ -206,11 +205,10 @@ def create_report_pdf(patient_info, original_img, overlay_img, metrics_df, metri
     with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp_chart:
         if metrics_fig:
             metrics_fig.write_image(tmp_chart.name, scale=2)
-            # Removed deprecated 'type' and 'dest' parameter
             pdf.image(tmp_chart.name, w=180) 
 
-    # FIX: pdf.output(dest='S') now returns bytes/bytearray, which does not have .encode().
-    return pdf.output(dest='S')
+    # FIX: Explicitly convert bytearray/bytes output to 'bytes' for Streamlit download_button
+    return bytes(pdf.output(dest='S'))
 
 
 # --- USER AUTHENTICATION CONFIG ---

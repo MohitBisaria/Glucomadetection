@@ -708,6 +708,10 @@ elif st.session_state["authentication_status"]:
                     format_dict[col] = "{:d}" 
 
             st.dataframe(metrics_df_display.style.format(format_dict), use_container_width=True)
+
+            st.markdown(f"### Prediction: **{metrics['Prediction']}**")
+            if isinstance(metrics['Confidence'], (float, np.floating)):
+                 st.markdown(f"**Confidence:** {metrics['Confidence'] * 100:.1f}%")
             
             if fig:
                 st.plotly_chart(fig, use_container_width=True)

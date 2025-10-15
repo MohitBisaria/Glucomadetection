@@ -500,17 +500,22 @@ if not st.session_state.get("authentication_status"):
                 - Glaucoma is hereditary. All patients with Glaucoma should inform their family members to get screened for Glaucoma
                 """)
         
+         
         st.markdown("<br><br>", unsafe_allow_html=True)
         footer_cols = st.columns(3)
         with footer_cols[0]:
-            try: st.image("hub.png")
-            except FileNotFoundError: st.error("File 'hub.png' not found.")
+            st.markdown("<h4 style='text-align: center;'>Funding Support</h4>", unsafe_allow_html=True)
+            logo_cols = st.columns(2)
+            with logo_cols[0]:
+                try: st.image("hub.png")
+                except FileNotFoundError: st.error("File 'logo_funding_hub.png' not found.")
+            with logo_cols[1]:
+                try: st.image("money.png")
+                except FileNotFoundError: st.error("File 'logo_funding_dst.png' not found.")
         with footer_cols[1]:
-            try: st.image("money.png")
-            except FileNotFoundError: st.error("File 'money.png' not found.")
-        with footer_cols[2]:
+            st.markdown("<h4 style='text-align: center;'>Project Development & Execution</h4>", unsafe_allow_html=True)
             try: st.image("mahindra university.png")
-            except FileNotFoundError: st.error("File 'mahindra university.png' not found.")
+            except FileNotFoundError: st.error("File 'logo_execution_mu.png' not found.")
         with footer_cols[2]:
             st.markdown("<h4 style='text-align: center;'>Support for Data Collection</h4>", unsafe_allow_html=True)
             try: st.image("government of telangna.png")

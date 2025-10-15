@@ -504,7 +504,8 @@ if not st.session_state.get("authentication_status"):
         st.markdown("<br><br>", unsafe_allow_html=True)
         footer_cols = st.columns(3)
         
-        # FIX: Removed explicit width, using use_container_width=True to maximize size within the column
+        # FIX: Adjusted widths for the logos to be visually consistent.
+        # Column 0: Two logos side by side (Each takes ~half the column width)
         with footer_cols[0]:
             st.markdown("<h4 style='text-align: center;'>Funding Support</h4>", unsafe_allow_html=True)
             col_a, col_b = st.columns(2)
@@ -515,14 +516,17 @@ if not st.session_state.get("authentication_status"):
                 try: st.image("money.png", use_container_width=True)
                 except FileNotFoundError: st.error("File 'money.png' not found.")
                 
+        # Column 1: One medium-sized logo
         with footer_cols[1]:
             st.markdown("<h4 style='text-align: center;'>Project Development & Execution</h4>", unsafe_allow_html=True)
             try: st.image("mahindra university.png", use_container_width=True)
             except FileNotFoundError: st.error("File 'mahindra university.png' not found.")
             
+        # Column 2: One circular logo (smaller than the max width of the column)
         with footer_cols[2]:
             st.markdown("<h4 style='text-align: center;'>Support for Data Collection</h4>", unsafe_allow_html=True)
-            try: st.image("government of telangna.png", use_container_width=True)
+            # FIX: Re-introduce explicit smaller width for the circular logo to make it visually consistent with others
+            try: st.image("government of telangna.png", width=120) 
             except FileNotFoundError: st.error("File 'government of telangna.png' not found.")
 
 

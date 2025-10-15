@@ -151,7 +151,7 @@ def create_report_pdf(patient_info, original_img, overlay_img, metrics_df, metri
 
     # --- Analysis Results Table ---
     pdf.set_font('Helvetica', 'B', 12)
-    pdf.cell(0, 10, 'Analysis Results (11 Clinical Features + GRI)', border=0, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='L')
+    pdf.cell(0, 10, 'Analysis Results', border=0, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='L')
     
     # UPDATED: More compact and clearer abbreviations for PDF headers
     pdf.set_font('Helvetica', 'B', 7.5) 

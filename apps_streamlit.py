@@ -126,11 +126,11 @@ def create_report_pdf(patient_info, original_img, overlay_img, metrics_df, metri
     pdf.ln(5)
     
     # --- GRI Result ---
-    pdf.set_font('Helvetica', 'B', 12)
-    pdf.set_fill_color(200, 220, 255) # Light blue background
+    #pdf.set_font('Helvetica', 'B', 12)
+    #pdf.set_fill_color(200, 220, 255) # Light blue background
     #gri_text = f'Glaucoma Risk Index (GRI): {gri_value:.3f}' if gri_value is not None else 'Glaucoma Risk Index (GRI): N/A'
-    pdf.cell(0, 10, gri_text, border=1, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='L', fill=True)
-    pdf.ln(5)
+    #pdf.cell(0, 10, gri_text, border=1, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='L', fill=True)
+    #pdf.ln(5)
 
     # --- Images ---
     pdf.set_font('Helvetica', 'B', 12)

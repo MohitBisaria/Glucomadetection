@@ -8,7 +8,7 @@ from torch import nn
 from transformers import AutoImageProcessor, SegformerForSemanticSegmentation
 import joblib
 import streamlit_authenticator as stauth
-from fpdf import FPDF
+from fpdf import FPDF, XPos, YPos # Import XPos and YPos for fpdf fix
 import tempfile
 import os
 import plotly.express as px
@@ -24,7 +24,6 @@ from sklearn.decomposition import IncrementalPCA
 TARGET_WIDTH = 1024 # Keep this consistent
 TARGET_HEIGHT = 768 # Keep this consistent
 # IMPORTANT: Ensure this file is accessible in your deployment environment
-# NOTE: Using placeholder path. Update for your specific deployment.
 pca_model_path = 'incremental_pca_model.pkl' 
 
 # --- Fixed Gabor Parameters (MUST MATCH PCA TRAINING SCRIPT) ---
@@ -103,13 +102,14 @@ st.set_page_config(layout="wide")
 class PDF(FPDF):
     def header(self):
         self.set_font('Helvetica', 'B', 15)
-        self.cell(0, 10, 'Glaucoma Screening Report', 0, 1, 'C')
+        # Use new FPDF argument style
+        self.cell(0, 10, 'Glaucoma Screening Report', border=0, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='C')
         self.ln(5)
 
     def footer(self):
         self.set_y(-15)
         self.set_font('Helvetica', 'I', 8)
-        self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
+        self.cell(0, 10, f'Page {self.page_no()}', border=0, new_x=XPos.RMARGIN, new_y=YPos.NEXT, align='C')
 
 def create_report_pdf(patient_info, original_img, overlay_img, metrics_df, metrics_fig, gri_value):
     pdf = PDF('P', 'mm', 'A4')
@@ -118,38 +118,40 @@ def create_report_pdf(patient_info, original_img, overlay_img, metrics_df, metri
 
     # --- Patient Details ---
     pdf.set_font('Helvetica', 'B', 12)
-    pdf.cell(0, 10, 'Patient Details', 0, 1, 'L')
+    pdf.cell(0, 10, 'Patient Details', border=0, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='L')
     pdf.set_font('Helvetica', '', 11)
     for key, value in patient_info.items():
-        pdf.cell(40, 8, f"{key}:", 0, 0)
-        pdf.cell(0, 8, str(value), 0, 1)
+        pdf.cell(40, 8, f"{key}:", border=0, new_x=XPos.RIGHT, new_y=YPos.TOP)
+        pdf.cell(0, 8, str(value), border=0, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     pdf.ln(5)
     
     # --- GRI Result ---
     pdf.set_font('Helvetica', 'B', 12)
     pdf.set_fill_color(200, 220, 255) # Light blue background
     gri_text = f'Glaucoma Risk Index (GRI): {gri_value:.3f}' if gri_value is not None else 'Glaucoma Risk Index (GRI): N/A'
-    pdf.cell(0, 10, gri_text, 1, 1, 'L', fill=True)
+    pdf.cell(0, 10, gri_text, border=1, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='L', fill=True)
     pdf.ln(5)
 
     # --- Images ---
     pdf.set_font('Helvetica', 'B', 12)
-    pdf.cell(0, 10, 'Screening Images', 0, 1, 'L')
+    pdf.cell(0, 10, 'Screening Images', border=0, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='L')
     with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp_orig, \
          tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp_overlay:
         cv2.imwrite(tmp_orig.name, cv2.cvtColor(original_img, cv2.COLOR_RGB2BGR))
         cv2.imwrite(tmp_overlay.name, cv2.cvtColor(overlay_img, cv2.COLOR_RGB2BGR))
-        pdf.image(tmp_orig.name, x=15, w=80, type='PNG')
-        pdf.image(tmp_overlay.name, x=110, w=80, type='PNG')
+        # Removed deprecated 'type' parameter
+        pdf.image(tmp_orig.name, x=15, w=80) 
+        pdf.image(tmp_overlay.name, x=110, w=80)
     
     pdf.set_font('Helvetica', 'I', 10)
-    pdf.text(x=45, y=pdf.get_y() + 65, txt='Original Image')
-    pdf.text(x=135, y=pdf.get_y() + 65, txt='Segmented Overlay')
+    # Renamed 'txt' to 'text'
+    pdf.text(x=45, y=pdf.get_y() + 65, text='Original Image') 
+    pdf.text(x=135, y=pdf.get_y() + 65, text='Segmented Overlay')
     pdf.ln(75)
 
     # --- Analysis Results Table ---
     pdf.set_font('Helvetica', 'B', 12)
-    pdf.cell(0, 10, 'Analysis Results (11 Clinical Features + GRI)', 0, 1, 'L')
+    pdf.cell(0, 10, 'Analysis Results (11 Clinical Features + GRI)', border=0, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='L')
     
     # UPDATED: More compact and clearer abbreviations for PDF headers
     pdf.set_font('Helvetica', 'B', 7.5) 
@@ -166,13 +168,14 @@ def create_report_pdf(patient_info, original_img, overlay_img, metrics_df, metri
     headers_to_print = list(headers_map.keys())
     
     # Adjusted widths (in mm) for the 14 columns
+    # Wider cells for longer abbreviated headers (e.g., DiscHWdt)
     col_widths = [10, 10, 10, 12, 12, 12, 12, 14, 14, 14, 14, 10, 18, 18] 
 
     for i, header in enumerate(headers_to_print):
         width = col_widths[i]
-        # Use abbreviated header
-        pdf.cell(width, 10, headers_map[header], 1, 0, 'C')
-    pdf.ln()
+        # Use abbreviated header, use new FPDF arguments
+        pdf.cell(width, 10, headers_map[header], border=1, new_x=XPos.RIGHT, new_y=YPos.TOP, align='C')
+    pdf.ln() # Move to the next line after the header row
     
     # Data rows - use smaller font for data
     pdf.set_font('Helvetica', '', 7.5) 
@@ -192,18 +195,22 @@ def create_report_pdf(patient_info, original_img, overlay_img, metrics_df, metri
             else: 
                 value_to_display = str(row[header])
 
-            pdf.cell(width, 10, value_to_display, 1, 0, 'C')
-    pdf.ln(15)
+            # Use new FPDF arguments for data cells
+            pdf.cell(width, 10, value_to_display, border=1, new_x=XPos.RIGHT, new_y=YPos.TOP, align='C')
+        pdf.ln() # Move to the next line after the data row
+    pdf.ln(5) # Add space after the table
 
     # --- Bar Chart ---
     pdf.set_font('Helvetica', 'B', 12)
-    pdf.cell(0, 10, 'All 12 Features Used for Glaucoma Prediction', 0, 1, 'L')
+    pdf.cell(0, 10, 'All 12 Features Used for Glaucoma Prediction', border=0, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='L')
     with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp_chart:
         if metrics_fig:
             metrics_fig.write_image(tmp_chart.name, scale=2)
-            pdf.image(tmp_chart.name, w=180, type='PNG')
+            # Removed deprecated 'type' and 'dest' parameter
+            pdf.image(tmp_chart.name, w=180) 
 
-    return pdf.output(dest='S').encode('latin-1')
+    # FIX: pdf.output(dest='S') now returns bytes/bytearray, which does not have .encode().
+    return pdf.output(dest='S')
 
 
 # --- USER AUTHENTICATION CONFIG ---
@@ -405,7 +412,11 @@ def process_image(image, processor, model, clf, gabor_bank, incremental_pca):
             'GRI': [GRI] # <--- GRI is the 12th feature
         }
         features = pd.DataFrame(feature_data)
-        prob = clf.predict_proba(features)[0]
+        
+        # FIX: Convert DataFrame to NumPy array to avoid sklearn UserWarning on feature names
+        features_array = features.to_numpy() 
+        
+        prob = clf.predict_proba(features_array)[0]
         prediction = np.argmax(prob)
         prediction_label = "Glaucoma" if prediction == 1 else "Normal"
         confidence = prob[prediction]
@@ -494,22 +505,15 @@ if not st.session_state.get("authentication_status"):
         st.markdown("<br><br>", unsafe_allow_html=True)
         footer_cols = st.columns(3)
         with footer_cols[0]:
-            st.markdown("<h4 style='text-align: center;'>Funding Support</h4>", unsafe_allow_html=True)
-            logo_cols = st.columns(2)
-            with logo_cols[0]:
-                try: st.image("hub.png")
-                except FileNotFoundError: st.error("File 'hub.png' not found.")
-            with logo_cols[1]:
-                try: st.image("money.png")
-                except FileNotFoundError: st.error("File 'money.png' not found.")
+            try: st.image("hub.png")
+            except FileNotFoundError: st.error("File 'hub.png' not found.")
         with footer_cols[1]:
-            st.markdown("<h4 style='text-align: center;'>Project Development & Execution</h4>", unsafe_allow_html=True)
+            try: st.image("money.png")
+            except FileNotFoundError: st.error("File 'money.png' not found.")
+        with footer_cols[2]:
             try: st.image("mahindra university.png")
             except FileNotFoundError: st.error("File 'mahindra university.png' not found.")
-        with footer_cols[2]:
-            st.markdown("<h4 style='text-align: center;'>Support for Data Collection</h4>", unsafe_allow_html=True)
-            try: st.image("government of telangna.png")
-            except FileNotFoundError: st.error("File 'government of telangna.png' not found.")
+
 
     elif st.session_state.page_view == 'about':
         st.markdown("<h3 style='color: red;'>About the Project Page</h3>", unsafe_allow_html=True)

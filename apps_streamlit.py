@@ -503,23 +503,28 @@ if not st.session_state.get("authentication_status"):
          
         st.markdown("<br><br>", unsafe_allow_html=True)
         footer_cols = st.columns(3)
+        
+        # FIX: Ensure all images are placed within the respective columns with explicit widths
+        # FIX: Removed nested columns and used explicit widths for horizontal layout.
         with footer_cols[0]:
             st.markdown("<h4 style='text-align: center;'>Funding Support</h4>", unsafe_allow_html=True)
-            logo_cols = st.columns(2)
-            with logo_cols[0]:
-                try: st.image("hub.png")
-                except FileNotFoundError: st.error("File 'logo_funding_hub.png' not found.")
-            with logo_cols[1]:
-                try: st.image("money.png")
-                except FileNotFoundError: st.error("File 'logo_funding_dst.png' not found.")
+            col_a, col_b = st.columns(2)
+            with col_a:
+                try: st.image("hub.png", width=120)
+                except FileNotFoundError: st.error("File 'hub.png' not found.")
+            with col_b:
+                try: st.image("money.png", width=120)
+                except FileNotFoundError: st.error("File 'money.png' not found.")
+                
         with footer_cols[1]:
             st.markdown("<h4 style='text-align: center;'>Project Development & Execution</h4>", unsafe_allow_html=True)
-            try: st.image("mahindra university.png")
-            except FileNotFoundError: st.error("File 'logo_execution_mu.png' not found.")
+            try: st.image("mahindra university.png", width=150)
+            except FileNotFoundError: st.error("File 'mahindra university.png' not found.")
+            
         with footer_cols[2]:
             st.markdown("<h4 style='text-align: center;'>Support for Data Collection</h4>", unsafe_allow_html=True)
-            try: st.image("government of telangna.png")
-            except FileNotFoundError: st.error("File 'logo_data_telangana.png' not found.")
+            try: st.image("government of telangna.png", width=150)
+            except FileNotFoundError: st.error("File 'government of telangna.png' not found.")
 
 
     elif st.session_state.page_view == 'about':

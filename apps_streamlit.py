@@ -511,6 +511,10 @@ if not st.session_state.get("authentication_status"):
         with footer_cols[2]:
             try: st.image("mahindra university.png")
             except FileNotFoundError: st.error("File 'mahindra university.png' not found.")
+        with footer_cols[2]:
+            st.markdown("<h4 style='text-align: center;'>Support for Data Collection</h4>", unsafe_allow_html=True)
+            try: st.image("government of telangna.png")
+            except FileNotFoundError: st.error("File 'logo_data_telangana.png' not found.")
 
 
     elif st.session_state.page_view == 'about':

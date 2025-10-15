@@ -526,7 +526,7 @@ if not st.session_state.get("authentication_status"):
         with footer_cols[2]:
             st.markdown("<h4 style='text-align: center;'>Support for Data Collection</h4>", unsafe_allow_html=True)
             # FIX: Set explicit smaller width for the circular logo to make it visually consistent with others
-            try: st.image("government of telangna.png", width=150) 
+            try: st.image("government of telangna.png", width=300) 
             except FileNotFoundError: st.error("File 'government of telangna.png' not found.")
 
 

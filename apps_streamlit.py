@@ -239,7 +239,7 @@ def load_all_resources():
     model.eval()
     
     try:
-        clf = joblib.load("/home/mu/Desktop/Project_Code/random_forest_new.pkl")
+        clf = joblib.load("random_forest_new.pkl")
     except FileNotFoundError:
         st.error('Classifier model file `random_forest_new.pkl` not found. RF prediction will fail.')
         clf = None

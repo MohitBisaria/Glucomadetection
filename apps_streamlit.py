@@ -523,7 +523,7 @@ if not st.session_state.get("authentication_status"):
             except FileNotFoundError: st.error("File 'mahindra university.png' not found.")
             
         # Column 2: One circular logo (smaller than the max width of the column)
-         with footer_cols[2]:
+        with footer_cols[2]:
             st.markdown("<h4 style='text-align: center;'>Support for Data Collection</h4>", unsafe_allow_html=True)
             try: st.image("government of telangna.png")
             except FileNotFoundError: st.error("File 'logo_data_telangana.png' not found.")

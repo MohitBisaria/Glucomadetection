@@ -201,7 +201,7 @@ def create_report_pdf(patient_info, original_img, overlay_img, metrics_df, metri
 
     # --- Bar Chart ---
     pdf.set_font('Helvetica', 'B', 12)
-    pdf.cell(0, 10, 'Glaucoma-Specific Metrics', border=0, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='L')
+    pdf.cell(0, 10, 'Glaucoma-Specific Metrics Chart', border=0, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='L')
     with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp_chart:
         if metrics_fig:
             metrics_fig.write_image(tmp_chart.name, scale=2)

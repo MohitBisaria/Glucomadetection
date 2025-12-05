@@ -616,7 +616,7 @@ elif st.session_state["authentication_status"]:
     with row2_cols[0]:
         gender = st.selectbox("Gender", options=["Male", "Female", "Others"])
     with row2_cols[1]:
-        comorbidities = st.multiselect("Comorbidities", ["BP", "Diabetes"], placeholder="Select (optional)")
+        comorbidities = st.multiselect("Comorbidities", ["BP", "Diabetes","COPD","IHD","CVA","GLAUCOMA FAMILY HISTORY","TRAUMA"], placeholder="Select (optional)")
 
     st.markdown("---")
     st.markdown("##### Upload a retinal image")

@@ -575,11 +575,12 @@ if not st.session_state.get("authentication_status"):
         st.markdown("<br><h4 style='color: #00008B;'>Acknowledgements</h4>", unsafe_allow_html=True)
         
         st.markdown("""
-        - Mr. Komatireddy Venkat Reddy, Minister of Roads, Buildings and Cinematography,Government of Telangana.
+        - Honourable Komatireddy Venkat Reddy, Minister of Roads, Buildings and Cinematography,Government of Telangana.
         - Mr. Jayesh Ranjan, Special Chief Secretary, Government of Telangana.
-        - Mr. Bhavesh Mishra, Deputy Secretary, Government of Telangana.
-        - Ms. Ila Tripathi, Collector, Nalgonda, Telangana.
-        - Dr. G Ranjit Kumar, Ophthalmologist, GRK Visual Fields, Hyderabad, Telangana.
+        - Mr. Bhavesh Mishra,IAS,Deputy Secretary IT Government of Telangana.
+        - Smt Ila Tripathi,IAS District Collector and District Magistrate Nalgonda, Telangana.
+        - DM&HO Dr.Putla Srinivas,DCH
+        - Dr. G Ranjit Kumar,practicing optometrist & Visual Fields, Fellow in Optometry LV Prasad Eye Institute (LVPEI) 
         """)
 
 # --- MAIN APPLICATION (Runs only after successful login) ---

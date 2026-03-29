@@ -13,3 +13,5 @@ torch==2.7.1+cpu
 fpdf2
 kaleido
 scikit-image
+Pillow
+timm

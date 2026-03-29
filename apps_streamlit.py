@@ -208,7 +208,7 @@ def create_report_pdf(patient_info, original_img, overlay_img, metrics_df, metri
             pdf.image(tmp_chart.name, w=180) 
 
     # FIX: Explicitly convert bytearray/bytes output to 'bytes' for Streamlit download_button
-    return bytes(pdf.output(dest='S'))
+    return bytes(pdf.output())
 
 
 # --- USER AUTHENTICATION CONFIG ---
@@ -708,7 +708,7 @@ elif st.session_state["authentication_status"]:
                 if col in metrics_df_display.columns:
                     format_dict[col] = "{:d}" 
 
-            st.dataframe(metrics_df_display.style.format(format_dict), use_container_width=True)
+            st.dataframe(metrics_df_display.style.format(format_dict, na_rep="N/A"), width="stretch")
 
             st.markdown(f"### Prediction: **{metrics['Prediction']}**")
             if isinstance(metrics['Confidence'], (float, np.floating)):
